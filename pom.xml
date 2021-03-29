@@ -86,10 +86,8 @@
 		<dependency>
 
 			<groupId>mysql</groupId>
-
-			<artifactId>mysql-connector-java</artifactId>
-
-			<scope>runtime</scope>
+ 			<artifactId>mysql-connector-java</artifactId>
+ 			<scope>runtime</scope>
 
 		</dependency>
 
@@ -124,6 +122,9 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.23</version>
 		</dependency>
+		
+		
+		
 		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
@@ -132,14 +133,7 @@
 		</dependency>
 
 
-		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.18.18</version>
-			<scope>provided</scope>
-		</dependency>
-
+	 
 
 		<!-- https://mvnrepository.com/artifact/com.nimbusds/oauth2-oidc-sdk -->
 		<dependency>
@@ -181,6 +175,12 @@
     <version>4.5.13</version>
 </dependency>
 
+<!-- https://mvnrepository.com/artifact/org.json/json -->
+<dependency>
+    <groupId>org.json</groupId>
+    <artifactId>json</artifactId>
+    <version>20210307</version>
+</dependency>
 
 
 

@@ -11,6 +11,8 @@ import org.springframework.context.MessageSource;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +48,14 @@ public class JwtUserDetailsService implements UserDetailsService {
 		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
 				new ArrayList<>());
 	}
-
+	
+	public LoginDao getUserByUsername(String user_login_cpf) {
+		LoginDao user = userDao.findByUsername(user_login_cpf);
+		if (user == null || !(user.isActive() == '1')) {
+			throw new UsernameNotFoundException("User not found with username: " + user_login_cpf);
+		}
+		return user;
+	}	
 	public boolean userNameAlreadExist(String user_login_cpf) {
 		LOGGER.info("Searching login by username");
 
@@ -60,7 +69,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 		return true;
 	}
 
-	public List<LoginDao> buscaPorEmail(LoginDto user) {
+	public List<LoginDao> searchingByEmail(LoginDto user) {
 		LOGGER.info("Searching login by email");
 		EntityManagerFactory factory = Persistence.createEntityManagerFactory("user_login");
 		EntityManager manager = factory.createEntityManager();
@@ -73,11 +82,13 @@ public class JwtUserDetailsService implements UserDetailsService {
 	}
 
 	public LoginDao save(LoginDto user) throws Exception {
-
+		bcryptEncoder = new BCryptPasswordEncoder();
+		String a = BCrypt.gensalt();
+		String senhaCrip=BCrypt.hashpw(user.getPassword(), a);
 		LOGGER.info("Entering at save login method");
 		LoginDao newUser = new LoginDao();
 		newUser.setUsername(user.getUsername());
-		newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
+		newUser.setPassword(senhaCrip);
 		newUser.setEmail(user.getEmail());
 		newUser.setActive(user.isActive());
 		newUser.setCreatedDate(new Date(System.currentTimeMillis()));
